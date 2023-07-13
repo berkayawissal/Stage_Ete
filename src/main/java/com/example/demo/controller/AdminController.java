@@ -28,6 +28,7 @@ public class AdminController {
     public List <Admin> findAllAdmins (){
         return service.findAllAdmins();
     }
+
 //    @PutMapping("update/{id}")
 //    public Admin updateAdmin(@PathVariable Integer id, @RequestBody Admin admin) {
 //        admin.setLogin(admin.getLogin());
