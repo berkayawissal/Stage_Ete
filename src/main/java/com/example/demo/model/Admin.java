@@ -1,16 +1,17 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public abstract class Admin  {
+public class Admin implements Serializable {
 
 public Admin(){
 
 }
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAdmin;
 
     public Integer getIdAdmin() {
@@ -36,15 +37,14 @@ public Admin(){
         this.password = password;
     }
 
-    public Admin(String login, String password, String role, List<Users> users) {
+    public Admin(Integer idAdmin, String login, String password, String role) {
+        this.idAdmin = idAdmin;
         this.login = login;
         this.password = password;
         this.role = role;
-        this.users = users;
     }
 
-
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "admin",targetEntity=Users.class)
     private List<Users> users;
 
     public String getRole() {
@@ -61,5 +61,19 @@ public Admin(){
 
     public void setUsers(List<Users> users) {
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "idAdmin=" + idAdmin +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
+
+    public Admin(Integer idAdmin) {
+        this.idAdmin = idAdmin;
     }
 }

@@ -1,103 +1,86 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
 import java.io.Serializable;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 
 @Entity
+@EnableJpaAuditing
 @Table(name="Commandes")
+@Getter
+@Setter
 public class Commande {
-
-    public Commande(Date date, double total, String etat, String description, PointDeVente pointDeVente, ChaineDeDistribution chaineDeDistribution, EndUsers endUser) {
-        this.date = date;
-        this.total = total;
-        this.etat = etat;
-        this.description = description;
-        this.pointDeVente = pointDeVente;
-        this.chaineDeDistribution = chaineDeDistribution;
-        this.endUser = endUser;
-    }
-public Commande(){
-
+public Commande()  {
 }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCommande;
 
-    private Date date;
     private double total;
-    private String etat;
+
+    @Enumerated(EnumType.STRING)
+    private EtatCommande etat;
+
+    @Column(name = "createdDate", updatable = false)
+    private Date createdDate;
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = new Date();
+    }
+    @PreUpdate
+    public void preUpdate() {
+        dateLivree = LocalDate.now();
+        tempsLivree = LocalTime.now();
+    }
+    @Column(name = "dateLivree")
+    private LocalDate dateLivree;
+
+    @Column(name = "dateRamassee")
+    private LocalDate dateRamassee;
+
+    @Column(name = "tempsLivree")
+    private LocalTime tempsLivree;
+
     private String description;
 
-    @ManyToOne(fetch=FetchType.EAGER, optional=true, cascade=CascadeType.ALL,targetEntity = PointDeVente.class)
-    @JoinColumn(name = "idPointDeVente")
-    private PointDeVente pointDeVente;
-
     @ManyToOne
-    @JoinColumn(name = "id_user")
-    private ChaineDeDistribution chaineDeDistribution;
+    @JoinColumn(name = "idLivreur")
+    private Livreur livreurs;
+
+    @ManyToMany(mappedBy = "commandes")
+    private List<Produit> produits;
 
     @ManyToOne
     @JoinColumn(name = "endUserId")
     private EndUsers endUser;
 
-    public Integer getIdCommande() {
-        return idCommande;
-    }
 
-    public Date getDate() {
-        return date;
-    }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
+    public Commande(double total, EtatCommande etat, String description) {
         this.total = total;
-    }
-
-    public String getEtat() {
-        return etat;
-    }
-
-    public void setEtat(String etat) {
         this.etat = etat;
-    }
-
-    public PointDeVente getPointDeVente() {
-        return pointDeVente;
-    }
-
-    public void setPointDeVente(PointDeVente pointDeVente) {
-        this.pointDeVente = pointDeVente;
-    }
-
-    public ChaineDeDistribution getChaineDeDistribution() {
-        return chaineDeDistribution;
-    }
-
-    public void setChaineDeDistribution(ChaineDeDistribution chaineDeDistribution) {
-        this.chaineDeDistribution = chaineDeDistribution;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
     }
 
-    public EndUsers getEndUser() {
-        return endUser;
-    }
-
-    public void setEndUser(EndUsers endUser) {
-        this.endUser = endUser;
+    @Override
+    public String toString() {
+        return "Commande{" +
+                ", total=" + total +
+                ", etat='" + etat + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

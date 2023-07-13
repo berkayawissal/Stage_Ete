@@ -1,10 +1,13 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table (name = "produits")
 public class Produit {
+    public Produit(){
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProduit;
@@ -13,13 +16,20 @@ public class Produit {
     @ManyToOne
     @JoinColumn(name = "pointDeVenteId")
     private PointDeVente pointDeVente;
+    @ManyToOne
+    @JoinColumn(name = "idDistributeur")
+    private Distributeur distributeurs;
 
-    public Produit(String nom, double prix, PointDeVente pointDeVente) {
-        this.nom = nom;
-        this.prix = prix;
-        this.pointDeVente = pointDeVente;
+    @ManyToMany
+    @JoinTable(
+            name = "produitCommande",
+            joinColumns = @JoinColumn(name = "produitId"),
+            inverseJoinColumns = @JoinColumn(name = "commandeId")
+    )
+    private List<Commande> commandes;
+
+    public Produit(String prod2, int prix, int i) {
     }
-
     public Integer getIdProduit() {
         return idProduit;
     }
@@ -46,5 +56,30 @@ public class Produit {
 
     public void setPointDeVente(PointDeVente pointDeVente) {
         this.pointDeVente = pointDeVente;
+    }
+
+    public Distributeur getDistributeurs() {
+        return distributeurs;
+    }
+
+    public void setDistributeurs(Distributeur distributeurs) {
+        this.distributeurs = distributeurs;
+    }
+
+    public Produit(String nom, double prix, PointDeVente pointDeVente, Distributeur distributeurs) {
+        this.nom = nom;
+        this.prix = prix;
+        this.pointDeVente = pointDeVente;
+        this.distributeurs = distributeurs;
+    }
+
+    @Override
+    public String toString() {
+        return "Produit{" +
+                "nom='" + nom + '\'' +
+                ", prix=" + prix +
+                ", pointDeVente=" + pointDeVente +
+                ", distributeurs=" + distributeurs +
+                '}';
     }
 }
