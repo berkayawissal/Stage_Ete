@@ -11,6 +11,8 @@ public interface AdminService {
 
     Object saveAdmin(Admin adminEntity);
 
+    Admin findById(Integer idAdmin);
+
     //Object updateAdminbyId(Integer id, Admin admin);
 
 }

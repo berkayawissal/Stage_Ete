@@ -3,11 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.model.Commande;
 import com.example.demo.model.EtatCommande;
 import com.example.demo.service.CommandeService;
+import javax.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
-import javax.validation.Valid;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +20,7 @@ public class CommandeController {
     }
     @PostMapping
     public Commande saveCommande (@Valid @RequestBody Commande commande){
-        LOGGER.info("saved");
+        System.out.println("saved");
         return (Commande) service.saveCommande(commande);
     }
     @GetMapping("/commandes")

@@ -2,14 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Admin;
 import com.example.demo.service.AdminService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 
 @RestController
+@Controller
 @RequestMapping("/admins")
 public class AdminController {
 
@@ -21,7 +22,7 @@ public class AdminController {
 
     @PostMapping
     public Admin saveAdmin(@Valid @RequestBody Admin admin) {
-        LOGGER.info("saved");
+        System.out.println("saved");
         return (Admin) service.saveAdmin(admin);
     }
     @GetMapping("/AllAdmins")

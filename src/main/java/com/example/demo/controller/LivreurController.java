@@ -1,14 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Admin;
 import com.example.demo.model.Livreur;
 import com.example.demo.service.LivreurService;
+import javax.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-
-import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 
 @RestController
 @RequestMapping("/livreurs")
@@ -21,7 +18,7 @@ public class LivreurController {
     }
     @PostMapping
     public Livreur saveLivreur(@Valid @RequestBody Livreur livreur) {
-        LOGGER.info("saved");
+        System.out.println("saved");
         return (Livreur) service.saveLivreur(livreur);
     }
     @GetMapping("/livreurs")

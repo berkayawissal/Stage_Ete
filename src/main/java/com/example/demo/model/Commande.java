@@ -2,17 +2,9 @@ package com.example.demo.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -78,9 +70,17 @@ public Commande()  {
     @Override
     public String toString() {
         return "Commande{" +
+                "idCommande=" + idCommande +
                 ", total=" + total +
-                ", etat='" + etat + '\'' +
+                ", etat=" + etat +
+                ", createdDate=" + createdDate +
+                ", dateLivree=" + dateLivree +
+                ", dateRamassee=" + dateRamassee +
+                ", tempsLivree=" + tempsLivree +
                 ", description='" + description + '\'' +
+                ", livreurs=" + livreurs +
+                ", produits=" + produits +
+                ", endUser=" + endUser +
                 '}';
     }
 }

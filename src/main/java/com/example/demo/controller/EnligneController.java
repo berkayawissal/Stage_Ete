@@ -1,16 +1,14 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.model.Admin;
 import com.example.demo.model.EnLigne;
 import com.example.demo.service.EnLigneService;
+import javax.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 import java.util.List;
 
-import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 
 @RestController
 @RequestMapping("/enLigne")
@@ -23,7 +21,7 @@ public class EnligneController {
     }
     @PostMapping
     public EnLigne saveEnLigne(@Valid @RequestBody EnLigne enLigne) {
-        LOGGER.info("saved");
+        System.out.println("saved");
         return (EnLigne) service.saveEnLigne(enLigne);
     }
     @GetMapping("/EnLignes")

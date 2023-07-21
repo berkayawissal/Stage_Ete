@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -28,8 +29,6 @@ public class Produit {
     )
     private List<Commande> commandes;
 
-    public Produit(String prod2, int prix, int i) {
-    }
     public Integer getIdProduit() {
         return idProduit;
     }

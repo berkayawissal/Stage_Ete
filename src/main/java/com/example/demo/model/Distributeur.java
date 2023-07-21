@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+
 public class Distributeur extends Users{
    public Distributeur(){
    }

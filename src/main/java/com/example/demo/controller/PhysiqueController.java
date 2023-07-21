@@ -1,15 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Admin;
 import com.example.demo.model.Physique;
 import com.example.demo.service.PhysiqueService;
-import org.springframework.stereotype.Controller;
+import javax.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
-import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 
 @RestController
 @RequestMapping("/physique")
@@ -21,7 +18,7 @@ public class PhysiqueController {
     }
     @PostMapping
     public Physique savePhysique(@Valid @RequestBody Physique physique) {
-        LOGGER.info("saved");
+        System.out.println("saved");
         return (Physique) service.savePhysique(physique);
     }
     @GetMapping("/physiques")
