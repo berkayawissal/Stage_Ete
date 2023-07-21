@@ -9,13 +9,12 @@ public class EndUsers extends Users {
 public EndUsers(){
 
 }
-
-    @ManyToOne
+    @ManyToOne( cascade=CascadeType.PERSIST)
     @JoinColumn(name = "point_de_vente_id")
     private PointDeVente pointDeVente;
-    @OneToMany(mappedBy = "endUser")
+    @OneToMany(mappedBy = "endUser",cascade=CascadeType.PERSIST)
     private List<Commande> commandes;
-    @OneToMany(mappedBy = "endUsers", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "endUsers", cascade = CascadeType.PERSIST)
     private List<Livreur> Livreurs;
 
 

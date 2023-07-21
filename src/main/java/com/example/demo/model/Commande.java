@@ -48,14 +48,14 @@ public Commande()  {
 
     private String description;
 
-    @ManyToOne
+    @ManyToOne( cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "idLivreur")
     private Livreur livreurs;
 
     @ManyToMany(mappedBy = "commandes")
     private List<Produit> produits;
 
-    @ManyToOne
+    @ManyToOne( cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "endUserId")
     private EndUsers endUser;
 

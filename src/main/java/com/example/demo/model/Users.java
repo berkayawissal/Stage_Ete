@@ -45,7 +45,7 @@ public class Users implements UserDetails, Serializable {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne( cascade=CascadeType.ALL)
+    @ManyToOne( cascade=CascadeType.PERSIST)
     @JoinColumn(name = "idAdmin")
     private Admin admin;
 

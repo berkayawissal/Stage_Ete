@@ -10,10 +10,10 @@ public class PointDeVente extends Users {
 
     public PointDeVente() {
     }
-    @OneToMany(mappedBy = "pointDeVente")
+    @OneToMany(mappedBy = "pointDeVente", cascade=CascadeType.PERSIST)
     private List<EndUsers> endUsers;
 
-    @OneToMany(mappedBy = "pointDeVente")
+    @OneToMany(mappedBy = "pointDeVente",cascade=CascadeType.PERSIST)
     private List<Produit> produits;
 
     public List<EndUsers> getEndUsers() {
@@ -32,15 +32,9 @@ public class PointDeVente extends Users {
         this.produits = produits;
     }
 
-    public PointDeVente(List<EndUsers> endUsers, List<Produit> produits) {
-        this.endUsers = endUsers;
-        this.produits = produits;
-    }
 
-    public PointDeVente(String role, String nom, String prenom, String email, String address, String localisation, String numTel, String login, String password, Admin admin, List<EndUsers> endUsers, List<Produit> produits) {
+    public PointDeVente(String role, String nom, String prenom, String email, String address, String localisation, String numTel, String login, String password, Admin admin) {
         super(role, nom, prenom, email, address, localisation, numTel, login, password, admin);
-        this.endUsers = endUsers;
-        this.produits = produits;
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Admin implements Serializable {
     private String loginAdmin;
     private String passwordAdmin;
     private String roles;
-    @OneToMany(mappedBy = "admin")
+    @OneToMany(mappedBy = "admin",cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
     private List<Users> users;
 
     public Admin(Integer idAdmin, String loginAdmin, String passwordAdmin, String roles) {

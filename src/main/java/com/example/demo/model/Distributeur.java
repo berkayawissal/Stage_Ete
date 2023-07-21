@@ -9,7 +9,7 @@ import java.util.List;
 public class Distributeur extends Users{
    public Distributeur(){
    }
-    @OneToMany(mappedBy = "distributeurs", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "distributeurs", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     private List<Produit> produits;
 
     public List<Produit> getProduits() {

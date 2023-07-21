@@ -14,10 +14,10 @@ public class Produit {
     private Integer idProduit;
     private String nom;
     private double prix;
-    @ManyToOne
+    @ManyToOne( cascade=CascadeType.PERSIST)
     @JoinColumn(name = "pointDeVenteId")
     private PointDeVente pointDeVente;
-    @ManyToOne
+    @ManyToOne( cascade=CascadeType.PERSIST)
     @JoinColumn(name = "idDistributeur")
     private Distributeur distributeurs;
 

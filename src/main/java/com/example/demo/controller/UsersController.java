@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dto.AdminDto;
+import com.example.demo.dto.UsersDto;
 import com.example.demo.model.Admin;
 import com.example.demo.model.Users;
 import com.example.demo.service.AdminService;
@@ -13,29 +15,28 @@ import java.util.List;
 @RequestMapping("/users")
 public class UsersController {
     private final UsersService service;
-    private AdminService adminService;
+    private final AdminService adminService;
 
     public UsersController(UsersService service, AdminService adminService) {
         this.service = service;
         this.adminService = adminService;
     }
-    public Users saveUser(@Valid @RequestBody Users users) {
+    @PostMapping
+    public Users saveUser(@RequestBody UsersDto usersDto) {
         System.out.println("saved");
 
         // Créer l'objet Users à partir des données fournies dans UsersDto
         Users user = new Users();
-        user.setAddress(users.getAddress());
-        user.setEmail(users.getEmail());
-        user.setLocalisation(users.getLocalisation());
-        user.setLogin(users.getLogin());
-        user.setNom(users.getNom());
-        user.setNumTel(users.getNumTel());
-        user.setPassword(users.getPassword());
-        user.setPrenom(users.getPrenom());
-        user.setRole(users.getRole());
+        user.setId(usersDto.getId());
+        user.setLogin(usersDto.getLogin());
+        user.setPassword(usersDto.getPassword());
+        user.setRole(usersDto.getRole());
+        user.setNom(usersDto.getNom());
+        user.setPrenom(usersDto.getPrenom());
+        user.setLocalisation(usersDto.getLocalisation());
 
         // Récupérer l'Admin à partir de son idAdmin
-        Admin admin = adminService.findById(users.getAdmin().getIdAdmin());
+        Admin admin = adminService.findById(usersDto.getAdminDto().getIdAdmin());
         if (admin != null) {
             user.setAdmin(admin);
         } else {
