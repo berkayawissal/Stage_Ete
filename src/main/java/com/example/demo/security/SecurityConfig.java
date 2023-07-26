@@ -8,9 +8,10 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -20,22 +21,58 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-			http
-				.csrf().disable()
-				.authorizeHttpRequests()
-				.antMatchers("/api/**")
-				.permitAll()
-				.anyRequest().authenticated()
+		http
+				.csrf()
+				.disable()
+			    .authorizeRequests()
+				.antMatchers("/**/auth/**",
+						"/**/role/**",
+
+						// swagger
+						"/v2/api-docs",
+						"/v2/api-docs/**",
+						"/swagger-resources",
+						"/swagger-resources/**",
+						"/configuration/ui",
+						"/configuration/security",
+						"/swagger-ui/**",
+						"/webjars/**",
+						"/swagger-ui.html",
+						"/**/h2-console/**").permitAll()
+
+				.anyRequest()
+				.authenticated()
 				.and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.authenticationProvider(authenticationProvider)
-				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+				.logout()
+				.logoutUrl("/api/v1/auth/logout")
+				.logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+		;
 
 		return http.build();
 	}
 }
+
+//			http
+//				.csrf().disable()
+//				.authorizeHttpRequests()
+//				.antMatchers("/api/**","api/v1/auth/**")
+//				.permitAll()
+//				.anyRequest().authenticated()
+//				.and()
+//				.sessionManagement()
+//				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//				.and()
+//				.authenticationProvider(authenticationProvider)
+//				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//		return http.build();
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.example.demo.service.implementation;
 
+import com.example.demo.dto.AdminDto;
 import com.example.demo.model.Admin;
 import com.example.demo.repository.AdminRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,8 +44,8 @@ class AdminServiceImplTest {
 //user service = underTest
     @Test
     void saveAdmin() {
-        Admin admin = new Admin(5, "admin", "root", "admin");
-        underTest.saveAdmin(admin);
+        Admin admin = AdminDto.toEntity(AdminDto.fromEntity(new Admin(5,"admin", "root", "admin")));
+        underTest.saveAdmin(AdminDto.fromEntity(admin));
         ArgumentCaptor<Admin> adminArgumentCaptor = ArgumentCaptor.forClass(Admin.class);
         verify(repository).save(adminArgumentCaptor.capture());
         Admin capturedAdmin = adminArgumentCaptor.getValue();

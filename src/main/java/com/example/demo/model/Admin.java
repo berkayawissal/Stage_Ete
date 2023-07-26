@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Admin implements Serializable {
     private String passwordAdmin;
     private String roles;
     @OneToMany(mappedBy = "admin",cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Users> users;
 
     public Admin(Integer idAdmin, String loginAdmin, String passwordAdmin, String roles) {
@@ -30,6 +32,10 @@ public class Admin implements Serializable {
         this.loginAdmin = loginAdmin;
         this.passwordAdmin = passwordAdmin;
         this.roles = roles;
+    }
+
+    public Admin(Integer idAdmin) {
+        this.idAdmin = idAdmin;
     }
 
     @Override

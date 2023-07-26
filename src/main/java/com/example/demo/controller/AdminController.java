@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AdminDto;
 import com.example.demo.model.Admin;
 import com.example.demo.service.AdminService;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,6 @@ import java.util.List;
 
 
 @RestController
-@Controller
 @RequestMapping("/admins")
 public class AdminController {
 
@@ -20,13 +20,13 @@ public class AdminController {
         this.service = service;
     }
 
-    @PostMapping
-    public Admin saveAdmin(@Valid @RequestBody Admin admin) {
+    @PostMapping("/save")
+    public AdminDto saveAdmin(@RequestBody AdminDto admin) {
         System.out.println("saved");
-        return (Admin) service.saveAdmin(admin);
+        return (AdminDto) service.saveAdmin(admin);
     }
     @GetMapping("/AllAdmins")
-    public List <Admin> findAllAdmins (){
+    public List <AdminDto> findAllAdmins (){
         return service.findAllAdmins();
     }
 

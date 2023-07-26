@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,6 +48,7 @@ public class Users implements UserDetails, Serializable {
 
     @ManyToOne( cascade=CascadeType.PERSIST)
     @JoinColumn(name = "idAdmin")
+    @JsonBackReference
     private Admin admin;
 
     public Users(String role, String nom, String prenom, String email, String address, String localisation, String numTel, String login, String password, Admin admin) {

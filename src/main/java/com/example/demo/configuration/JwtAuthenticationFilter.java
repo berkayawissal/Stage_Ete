@@ -19,14 +19,14 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private  final JwtService jwtService;
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request,
-                                    @NotNull HttpServletResponse response,
-                                    @NotNull FilterChain filterChain)
+    protected void doFilterInternal( HttpServletRequest request,
+                                     HttpServletResponse response,
+                                     FilterChain filterChain)
             throws ServletException, IOException {
-        final String auth = request.getHeader("Authorization");
+        final String auth = request.getHeader("/api/v1/auth");
         final String jwt;
         final String email;
         if (auth == null ||!auth.startsWith("Bearer ")){
@@ -40,9 +40,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (email != null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails userDetails= this.userDetailsService.loadUserByUsername(email);
            //check if user and the token are valid or not
-            if ((jwtService.isValidToken(jwt, userDetails))){
+            if ((jwtService.isTokenValid(jwt, userDetails))){
                 UsernamePasswordAuthenticationToken tokenAuth = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                //enforce the tokenAuth with the details of our request
+
                 tokenAuth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                //to update the authToken
                 SecurityContextHolder.getContext().setAuthentication(tokenAuth);

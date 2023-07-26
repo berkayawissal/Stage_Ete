@@ -1,14 +1,17 @@
 package com.example.demo.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class Distributeur extends Users{
-   public Distributeur(){
-   }
     @OneToMany(mappedBy = "distributeurs", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     private List<Produit> produits;
 
