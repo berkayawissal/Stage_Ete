@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Distributeur extends Users{
     @OneToMany(mappedBy = "distributeurs", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Produit> produits;
 
     public List<Produit> getProduits() {
@@ -24,8 +27,8 @@ public class Distributeur extends Users{
     }
 
 
-    public Distributeur(String role, String nom, String prenom, String email, String address, String localisation, String numTel, String login, String password, Admin admin) {
-        super(role, nom, prenom, email, address, localisation, numTel, login, password, admin);
+    public Distributeur(Integer id, ERoles roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
+        super(id, roles, nom, prenom, email, address, localisation, numTel, password);
 
     }
 }

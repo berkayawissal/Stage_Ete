@@ -8,7 +8,12 @@ import java.util.List;
 
 @Service
 public interface UsersService {
-    List<Users> findAllUsers();
+    List<UsersDto> findAllUsers();
 
     UsersDto saveUser(UsersDto usersDto);
+
+    UsersDto findByLogin(String email);
+    UsersDto findById(Integer id);
+    UsersDto findByRole(String role);
+
 }

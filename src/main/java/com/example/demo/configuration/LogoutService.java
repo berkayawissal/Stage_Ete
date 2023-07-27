@@ -1,22 +1,14 @@
 package com.example.demo.configuration;
 import lombok.RequiredArgsConstructor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.repository.TokenRepository;
 
 
 @Service
 @RequiredArgsConstructor
-public class LogoutService implements LogoutHandler {
-
-    private final TokenRepository tokenRepository;
+public class LogoutService {
+//implements LogoutHandler
+    /*private final TokenRepository tokenRepository;
 
     @Override
     public void logout(
@@ -38,6 +30,6 @@ public class LogoutService implements LogoutHandler {
             tokenRepository.save(storedToken);
             SecurityContextHolder.clearContext();
         }
-    }
+    }*/
 }
 

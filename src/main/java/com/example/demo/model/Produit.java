@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,9 +18,11 @@ public class Produit {
     private double prix;
     @ManyToOne( cascade=CascadeType.PERSIST)
     @JoinColumn(name = "pointDeVenteId")
+    @JsonBackReference
     private PointDeVente pointDeVente;
     @ManyToOne( cascade=CascadeType.PERSIST)
     @JoinColumn(name = "idDistributeur")
+    @JsonBackReference
     private Distributeur distributeurs;
 
     @ManyToMany

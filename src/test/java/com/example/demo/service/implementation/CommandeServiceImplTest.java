@@ -1,5 +1,6 @@
 package com.example.demo.service.implementation;
 
+import com.example.demo.dto.CommandeDto;
 import com.example.demo.model.Admin;
 import com.example.demo.model.Commande;
 import com.example.demo.model.EtatCommande;
@@ -45,7 +46,7 @@ public class CommandeServiceImplTest {
     void saveCommande() {
 
             Commande commande = new Commande( 12220, EtatCommande.LIVREE, "commande livree");
-            underTest.saveCommande(commande);
+            underTest.saveCommande(CommandeDto.fromEntity(commande));
             ArgumentCaptor<Commande> commandeArgumentCaptor = ArgumentCaptor.forClass(Commande.class);
             verify(repository).save(commandeArgumentCaptor.capture());
             Commande capturedCommande = commandeArgumentCaptor.getValue();
@@ -61,7 +62,8 @@ public class CommandeServiceImplTest {
 
         LocalDate startDate = LocalDate.of(2023, 7, 1);
         LocalDate endDate = LocalDate.of(2023, 7, 8);
-       when(repository.findByEtatDateBetween(startDate, endDate)).thenReturn(List.of(commande,commande1,commande2));
+        //liste(commande1,commande2)->Optional
+       when(repository.findByEtatDateBetween(startDate, endDate)).thenReturn(Optional.of(commande));
 
         List<Integer> result = underTest.getDeliveredCommand(EtatCommande.valueOf("LIVREE"),startDate, endDate);
 

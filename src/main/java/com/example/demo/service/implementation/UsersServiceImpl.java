@@ -11,6 +11,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class UsersServiceImpl implements UsersService {
@@ -20,27 +22,51 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public List<Users> findAllUsers() {
-        return (List<Users>) repository.findAll();
+    public List<UsersDto> findAllUsers() {
+        return repository.findAll().stream().map(UsersDto::fromEntity).collect(Collectors.toList());
     }
 
     @Override
     public UsersDto saveUser(UsersDto usersDto) {
         Users user=UsersDto.toEntity(usersDto);
         Users userSaved = repository.save(user);
-        Integer adminId = userSaved.getAdmin().getIdAdmin();
-        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new EntityNotFoundException("Admin not found with ID: " + adminId));
-        userSaved.setAdmin(admin);
         return UsersDto.fromEntity(userSaved);
     }
 
-    AdminRepository adminRepository;
+    @Override
+    public UsersDto findByLogin(String email) {
+        Optional<Users> users =repository.findByEmail(email);
+        if (users.isPresent()) {
+            Users user=users.get();
+            return UsersDto.fromEntity(user);
+        }
+        else {
+            return null;
+        }
+    }
 
-//    @Override
-//    public Users saveUser(Users users) {
-//        Integer adminId = users.getAdmin().getIdAdmin();
-//        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new EntityNotFoundException("Admin not found with ID: " + adminId));
-//        users.setAdmin(admin);
-//        return repository.save(users);
-//    }
+    @Override
+    public UsersDto findById(Integer id) {
+        Optional<Users> users =repository.findById(id);
+        if (users.isPresent()) {
+            Users user=users.get();
+            return UsersDto.fromEntity(user);
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public UsersDto findByRole(String roles) {
+        Optional<Users> users =repository.findByRoles(roles);
+        if (users.isPresent()) {
+            Users user=users.get();
+            return UsersDto.fromEntity(user);
+        }
+        else {
+            return null;
+        }
+    }
+
 }

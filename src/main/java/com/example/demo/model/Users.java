@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+//import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +9,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,12 +25,14 @@ import java.util.List;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Users implements UserDetails, Serializable {
+@Table(uniqueConstraints={ @UniqueConstraint(columnNames = "email")})
+public class Users implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
     @Column(name = "role")
-    private String role;
+    private ERoles roles ;
+
     @Column(name = "nom")
     private String nom;
     @Column(name = "prenom")
@@ -41,49 +45,53 @@ public class Users implements UserDetails, Serializable {
     private String localisation;
     @Column(name = "numTel")
     private String numTel;
-    @Column(name = "login")
-    private String login;
     @Column(name = "password")
     private String password;
 
-    @ManyToOne( cascade=CascadeType.PERSIST)
-    @JoinColumn(name = "idAdmin")
-    @JsonBackReference
-    private Admin admin;
-
-    public Users(String role, String nom, String prenom, String email, String address, String localisation, String numTel, String login, String password, Admin admin) {
-        this.role = role;
+    public Users(ERoles roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
+        this.roles = roles;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.address = address;
         this.localisation = localisation;
         this.numTel = numTel;
-        this.login = login;
         this.password = password;
-        this.admin = admin;
+    }
+
+
+
+    public Users(String nom,String email, String password) {
+        this.nom = nom;
+        this.email=email;
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return "Users{" +
-                "id=" + id +
-                ", role='" + role + '\'' +
+                "id=" + id + '\'' +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
                 ", localisation='" + localisation + '\'' +
                 ", numTel='" + numTel + '\'' +
-                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", admin=" + admin +
                 '}';
+    }
+
+    public ERoles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(ERoles roles) {
+        this.roles = roles;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(roles.name()));
     }
 
     @Override
@@ -93,7 +101,7 @@ public class Users implements UserDetails, Serializable {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
     @Override
@@ -115,5 +123,6 @@ public class Users implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
+
 }
 

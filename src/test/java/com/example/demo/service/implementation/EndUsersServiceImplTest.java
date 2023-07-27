@@ -1,6 +1,7 @@
 package com.example.demo.service.implementation;
 
 import com.example.demo.model.Admin;
+import com.example.demo.model.ERoles;
 import com.example.demo.model.EndUsers;
 import com.example.demo.repository.EndUsersRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +34,7 @@ class EndUsersServiceImplTest {
 
     @Test
     void findAllEndUsers() {
-        List<EndUsers> endUsers = List.of(new EndUsers("EndUser", "nomEndUser","prenomEndUser","email@EndUser","addressEndUser","localisationEndUser","numTelEndUser", "loginEndUser", "passwordEndUser", new Admin(10)), new EndUsers("EndUser", "nomEndUser1","prenomEndUser1","email@EndUser1","addressEndUser1","localisationEndUser1","numTelEndUser1", "loginEndUser1", "passwordEndUser1", new Admin(11)));
+        List<EndUsers> endUsers = List.of(new EndUsers(1, ERoles.END_USER, "nomEndUser","prenomEndUser","email@EndUser","addressEndUser","localisationEndUser","numTelEndUser", "passwordEndUser"), new EndUsers(2,ERoles.END_USER, "nomEndUser1","prenomEndUser1","email@EndUser1","addressEndUser1","localisationEndUser1","numTelEndUser1", "passwordEndUser1"));
         when(repository.findAll()).thenReturn(endUsers);
         assertEquals(2,  underTest.findAllEndUsers().size());
     }

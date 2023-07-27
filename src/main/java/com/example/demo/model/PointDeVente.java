@@ -33,8 +33,8 @@ public class PointDeVente extends Users {
     }
 
 
-    public PointDeVente(String role, String nom, String prenom, String email, String address, String localisation, String numTel, String login, String password, Admin admin) {
-        super(role, nom, prenom, email, address, localisation, numTel, login, password, admin);
+    public PointDeVente(Integer id, ERoles roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
+        super(id, roles, nom, prenom, email, address, localisation, numTel, password);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 @Entity
@@ -9,12 +12,18 @@ public class EndUsers extends Users {
 public EndUsers(){
 
 }
+//    @Id
+//    private Integer idEndUser;
+
     @ManyToOne( cascade=CascadeType.PERSIST)
     @JoinColumn(name = "point_de_vente_id")
+    @JsonBackReference
     private PointDeVente pointDeVente;
     @OneToMany(mappedBy = "endUser",cascade=CascadeType.PERSIST)
+    @JsonManagedReference
     private List<Commande> commandes;
     @OneToMany(mappedBy = "endUsers", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     private List<Livreur> Livreurs;
 
 
@@ -43,12 +52,8 @@ public EndUsers(){
         Livreurs = livreurs;
     }
 
-
-    public EndUsers(String role, String nom, String prenom, String email, String address, String localisation, String numTel, String login, String password, Admin admin) {
-        super(role, nom, prenom, email, address, localisation, numTel, login, password, admin);
-//        this.pointDeVente = pointDeVente;   , PointDeVente pointDeVente, List<Commande> commandes, List<Livreur> livreurs
-//        this.commandes = commandes;
-//        this.Livreurs = livreurs;
+    public EndUsers(Integer id, ERoles roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
+        super(id, roles, nom, prenom, email, address, localisation, numTel, password);
     }
 
     @Override

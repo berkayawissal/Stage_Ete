@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.Admin;
+import com.example.demo.model.ERoles;
 import com.example.demo.model.Users;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,10 +30,10 @@ public class AdminDto {
             return null;
             // TODO exception
         }
-        return Admin.builder()
-                .loginAdmin(adminDto.getLoginAdmin())
-                .passwordAdmin(adminDto.getPasswordAdmin())
-                .roles(adminDto.getRoles())
+        return (Admin) Admin.builder()
+                .email(adminDto.getLoginAdmin())
+                .password(adminDto.getPasswordAdmin())
+                .roles(ERoles.valueOf(adminDto.getRoles()))
                 .build();
     }
     public static AdminDto fromEntity(Admin admin) {
@@ -41,8 +42,8 @@ public class AdminDto {
             // TODO exception
         }
         return AdminDto.builder()
-                .idAdmin(admin.getIdAdmin())
-                .loginAdmin(admin.getLoginAdmin())
+                .idAdmin(admin.getId())
+                .loginAdmin(admin.getEmail())
                 .build();
     }
 

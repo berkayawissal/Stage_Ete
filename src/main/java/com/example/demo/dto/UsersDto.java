@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.Admin;
+import com.example.demo.model.ERoles;
 import com.example.demo.model.Users;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,7 @@ public class UsersDto {
     private String address;
     private String localisation;
     private String numTel;
-    private String login;
+    private String email;
     private String password;
 
     private AdminDto adminDto;
@@ -34,9 +35,9 @@ public class UsersDto {
         }
         return UsersDto.builder()
                 .id(user.getId())
-                .login(user.getLogin())
+                .email(user.getEmail())
                 .password(user.getPassword())
-                .role(user.getRole())
+                .role(user.getRoles().toString())
                 .nom(user.getNom())
                 .prenom(user.getPrenom())
                 .localisation(user.getLocalisation())
@@ -50,14 +51,14 @@ public class UsersDto {
         }
         Users user = new Users();
         user.setId(usersDto.getId());
-        user.setLogin(usersDto.getLogin());
+        user.setEmail(usersDto.getEmail());
         user.setPassword(usersDto.getPassword());
-        user.setRole(usersDto.getRole());
+        user.setRoles(ERoles.valueOf(usersDto.getRole()));
         user.setNom(usersDto.getNom());
         user.setPrenom(usersDto.getPrenom());
         user.setLocalisation(usersDto.getLocalisation());
-        user.setAdmin(AdminDto.toEntity(usersDto.getAdminDto()));
         return user;
 
     }
+
 }

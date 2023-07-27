@@ -27,12 +27,23 @@ public class UsersController {
     @RolesAllowed("ADMIN")
     public UsersDto saveUser(@RequestBody UsersDto usersDto) {
 
-        return (UsersDto) service.saveUser(usersDto);
+        return service.saveUser(usersDto);
     }
     @GetMapping("/allUsers")
-    public List<Users> findAllUsers(){
+    public List<UsersDto> findAllUsers(){
         return service.findAllUsers();
     }
-
+    @GetMapping("/findByLogin/{email}")
+    public UsersDto findByLogin(@PathVariable String email) {
+        return service.findByLogin(email);
+    }
+    @GetMapping("/findById/{id}")
+    public UsersDto findById(@PathVariable Integer id) {
+        return service.findById(id);
+    }
+    @GetMapping("/findByRole/{role}")
+    public UsersDto findByRole(@PathVariable String role) {
+        return service.findByRole(role);
+    }
 }
 

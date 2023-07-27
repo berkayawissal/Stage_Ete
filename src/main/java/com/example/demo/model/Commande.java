@@ -1,7 +1,8 @@
 package com.example.demo.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,11 +14,13 @@ import java.util.*;
 @Table(name="Commandes")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Commande {
-public Commande()  {
-}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonBackReference
     private Integer idCommande;
 
     private double total;
@@ -50,13 +53,16 @@ public Commande()  {
 
     @ManyToOne( cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "idLivreur")
+    @JsonBackReference
     private Livreur livreurs;
 
     @ManyToMany(mappedBy = "commandes")
+    @JsonManagedReference
     private List<Produit> produits;
 
     @ManyToOne( cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "endUserId")
+    @JsonBackReference
     private EndUsers endUser;
 
 

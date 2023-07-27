@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
-    @Bean
+   /* @Bean
     public OpenAPI customOpenAPIConfig() {
         final String securitySchemeName = "bearerAuth";
         return new OpenAPI()
@@ -29,6 +29,6 @@ public class OpenApiConfig {
                                 )
                 );
 
-    }
+    }*/
 
 }

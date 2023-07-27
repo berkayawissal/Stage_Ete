@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.AdminDto;
 import com.example.demo.model.Admin;
 import com.example.demo.service.AdminService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,18 +13,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admins")
+@AllArgsConstructor
 public class AdminController {
 
     private final AdminService service;
 
-    public AdminController(AdminService service) {
-        this.service = service;
-    }
-
     @PostMapping("/save")
     public AdminDto saveAdmin(@RequestBody AdminDto admin) {
         System.out.println("saved");
-        return (AdminDto) service.saveAdmin(admin);
+        return service.saveAdmin(admin);
     }
     @GetMapping("/AllAdmins")
     public List <AdminDto> findAllAdmins (){

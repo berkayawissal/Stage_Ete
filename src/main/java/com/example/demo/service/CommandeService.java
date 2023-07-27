@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.CommandeDto;
 import com.example.demo.model.Commande;
 import com.example.demo.model.EtatCommande;
 import org.springframework.stereotype.Service;
@@ -10,13 +11,13 @@ import java.util.Optional;
 
 @Service
 public interface CommandeService {
-    List<Commande> findAllCommandes();
+    List<CommandeDto> findAllCommandes();
 
-    Object saveCommande(Commande commandeEntity);
+    CommandeDto saveCommande(CommandeDto dto);
 
-    Optional<Commande> findCommandeById(Integer idCommande);
+    Optional<CommandeDto> findCommandeById(Integer idCommande);
 
-    Optional<Commande> findCommandeByEtat(EtatCommande etat);
+    Optional<CommandeDto> findCommandeByEtat(EtatCommande etat);
 
     List<Integer> getDeliveredCommand(EtatCommande etat, LocalDate startDate, LocalDate endDate);
 }

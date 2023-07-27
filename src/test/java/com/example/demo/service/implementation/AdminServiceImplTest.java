@@ -36,7 +36,7 @@ class AdminServiceImplTest {
     }
     @Test
     void findAllAdmins() {
-        List<Admin> admins = List.of(new Admin(5, "admin", "root", "admin"), new Admin(6, "wissal", "1111", "admin"));
+        List<Admin> admins = List.of(new Admin(), new Admin());
         when(repository.findAll()).thenReturn(admins);
         assertEquals(2,  underTest.findAllAdmins().size());
     }
@@ -44,7 +44,7 @@ class AdminServiceImplTest {
 //user service = underTest
     @Test
     void saveAdmin() {
-        Admin admin = AdminDto.toEntity(AdminDto.fromEntity(new Admin(5,"admin", "root", "admin")));
+        Admin admin = AdminDto.toEntity(AdminDto.fromEntity(new Admin()));
         underTest.saveAdmin(AdminDto.fromEntity(admin));
         ArgumentCaptor<Admin> adminArgumentCaptor = ArgumentCaptor.forClass(Admin.class);
         verify(repository).save(adminArgumentCaptor.capture());

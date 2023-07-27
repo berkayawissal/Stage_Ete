@@ -19,6 +19,6 @@ public interface CommandeRepository extends JpaRepository<Commande, Integer> {
 
     List<Commande> findByDateLivree(LocalDate createdDateTime);
     @Query("SELECT c.idCommande FROM Commande c WHERE (c.dateLivree BETWEEN :startDate AND :endDate)")
-    List<Commande> findByEtatDateBetween(@Param("startDate") LocalDate startDate,
+    Optional<Commande> findByEtatDateBetween(@Param("startDate") LocalDate startDate,
                                          @Param("endDate") LocalDate endDate);
 }

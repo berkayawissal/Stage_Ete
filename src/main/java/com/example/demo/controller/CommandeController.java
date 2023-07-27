@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CommandeDto;
 import com.example.demo.model.Commande;
 import com.example.demo.model.EtatCommande;
 import com.example.demo.service.CommandeService;
@@ -19,21 +20,21 @@ public class CommandeController {
         this.service = service;
     }
     @PostMapping
-    public Commande saveCommande (@Valid @RequestBody Commande commande){
+    public CommandeDto saveCommande (@Valid @RequestBody Commande commande){
         System.out.println("saved");
-        return (Commande) service.saveCommande(commande);
+        return (CommandeDto) service.saveCommande(CommandeDto.fromEntity(commande));
     }
     @GetMapping("/commandes")
-    public List<Commande> findAllCommandes(){
+    public List<CommandeDto> findAllCommandes(){
         return service.findAllCommandes();
     }
 
     @GetMapping("/{id}")
-    public Optional<Commande> findCommandeById (@PathVariable(value = "idCommande") Integer idCommande){
+    public Optional<CommandeDto> findCommandeById (@PathVariable(value = "idCommande") Integer idCommande){
         return  service.findCommandeById(idCommande);
     }
     @GetMapping("/{etat}")
-    public Optional<Commande> findCommandeByEtat(@PathVariable(value = "etat") EtatCommande etat){
+    public Optional<CommandeDto> findCommandeByEtat(@PathVariable(value = "etat") EtatCommande etat){
         return service.findCommandeByEtat(etat);
     }
 

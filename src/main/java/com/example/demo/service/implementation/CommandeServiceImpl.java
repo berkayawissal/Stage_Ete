@@ -1,5 +1,6 @@
 package com.example.demo.service.implementation;
 
+import com.example.demo.dto.CommandeDto;
 import com.example.demo.model.Commande;
 import com.example.demo.model.EtatCommande;
 import com.example.demo.repository.CommandeRepository;
@@ -23,32 +24,46 @@ public class CommandeServiceImpl implements CommandeService {
     }
 
     @Override
-    public List<Commande> findAllCommandes() {
-        return repository.findAll();
+    public List<CommandeDto> findAllCommandes() {
+        return repository.findAll().stream().map(CommandeDto::fromEntity).collect(Collectors.toList());
     }
 
     @Override
-    public Object saveCommande(Commande commandeEntity) {
-        return repository.save(commandeEntity);
+    public CommandeDto saveCommande(CommandeDto dto) {
+        Commande commande = CommandeDto.toEntity(dto);
+        Commande commandeSaved= repository.save(commande);
+        return CommandeDto.fromEntity(commandeSaved);
     }
 
     @Override
-    public Optional<Commande> findCommandeById(Integer idCommande) {
-        return repository.findById(idCommande);
+    public Optional<CommandeDto> findCommandeById(Integer idCommande) {
+        Optional<Commande> commandes = repository.findById(idCommande);
+        if (commandes.isPresent()) {
+            Commande commande = commandes.get();
+            return Optional.ofNullable(CommandeDto.fromEntity(commande));
+        }
+        else {
+            return null;
+        }
     }
-
     @Override
-    public Optional<Commande> findCommandeByEtat(EtatCommande etat) {
-        return Optional.ofNullable(repository.findByEtat(EtatCommande.LIVREE).orElseThrow(() -> new RuntimeException("no delivered command found")));
+    public Optional<CommandeDto> findCommandeByEtat(EtatCommande etat) {
+        Optional<Commande> commnades = repository.findByEtat(EtatCommande.LIVREE);
+        if (commnades.isPresent()){
+            Commande commande= commnades.get();
+            return Optional.ofNullable(Optional.ofNullable(CommandeDto.fromEntity(commande)).orElseThrow(() -> new RuntimeException("no delivered command found")));
+    } else {
+            return null;
+        }
     }
 
     @Override
     public List<Integer> getDeliveredCommand(EtatCommande etat , LocalDate startDate, LocalDate endDate) {
-        List<Commande> deliveredCommands = repository.findByEtatDateBetween(startDate, endDate);
-
+        Optional<Commande> deliveredCommands = repository.findByEtatDateBetween(startDate, endDate);
+       // if (deliveredCommands.isPresent()){}
         return deliveredCommands.stream()
                 .filter(a->a.getEtat()==EtatCommande.LIVREE)
-                .map(a->a.getIdCommande())
+                .map(Commande::getIdCommande)
                 .collect(Collectors.toList());
     }
 
