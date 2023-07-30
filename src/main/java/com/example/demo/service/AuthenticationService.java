@@ -1,10 +1,9 @@
 package com.example.demo.service;
 
 
-import com.example.demo.service.JwtService;
-import com.example.demo.dao.AuthenticationRequest;
-import com.example.demo.dao.AuthenticationResponse;
-import com.example.demo.dao.RegistrationRequest;
+import com.example.demo.auth.AuthenticationRequest;
+import com.example.demo.auth.AuthenticationResponse;
+import com.example.demo.auth.RegistrationRequest;
 import com.example.demo.model.Role;
 import com.example.demo.model.Token;
 import com.example.demo.model.TokenType;
@@ -19,10 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

@@ -1,16 +1,14 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.dao.AuthenticationRequest;
-import com.example.demo.dao.AuthenticationResponse;
-import com.example.demo.dao.RegistrationRequest;
-import com.example.demo.exception.AdminNotFoundException;
+import com.example.demo.auth.AuthenticationRequest;
+import com.example.demo.auth.AuthenticationResponse;
+import com.example.demo.auth.RegistrationRequest;
 import com.example.demo.model.Users;
 import com.example.demo.service.AuthenticationService;
 import com.example.demo.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

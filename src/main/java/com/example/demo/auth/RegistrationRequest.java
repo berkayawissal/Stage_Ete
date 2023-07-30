@@ -1,4 +1,4 @@
-package com.example.demo.dao;
+package com.example.demo.auth;
 
 import com.example.demo.model.Users;
 import lombok.AllArgsConstructor;
