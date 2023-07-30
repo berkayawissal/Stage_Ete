@@ -1,18 +1,13 @@
 package com.example.demo.service.implementation;
 
-import com.example.demo.dto.AdminDto;
-import com.example.demo.dto.UsersDto;
-import com.example.demo.model.Admin;
+import com.example.demo.exception.AdminNotFoundException;
 import com.example.demo.model.Users;
-import com.example.demo.repository.AdminRepository;
 import com.example.demo.repository.UsersRepository;
 import com.example.demo.service.UsersService;
-import javax.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class UsersServiceImpl implements UsersService {
@@ -22,23 +17,20 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public List<UsersDto> findAllUsers() {
-        return repository.findAll().stream().map(UsersDto::fromEntity).collect(Collectors.toList());
+    public List<Users> findAllUsers() {
+        return repository.findAll();
     }
 
     @Override
-    public UsersDto saveUser(UsersDto usersDto) {
-        Users user=UsersDto.toEntity(usersDto);
-        Users userSaved = repository.save(user);
-        return UsersDto.fromEntity(userSaved);
+    public Users saveUser(Users user) {
+        return repository.save(user);
     }
 
     @Override
-    public UsersDto findByLogin(String email) {
-        Optional<Users> users =repository.findByEmail(email);
-        if (users.isPresent()) {
-            Users user=users.get();
-            return UsersDto.fromEntity(user);
+    public Optional<Users> findByLogin(String email) {
+        Optional<Users> user =repository.findByEmail(email);
+        if (user!= null) {
+            return user;
         }
         else {
             return null;
@@ -46,27 +38,34 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UsersDto findById(Integer id) {
+    public Users findById(Integer id) {
         Optional<Users> users =repository.findById(id);
-        if (users.isPresent()) {
-            Users user=users.get();
-            return UsersDto.fromEntity(user);
+        return users.orElse(null);
+    }
+
+    @Override
+    public Users findByRole(String roles) {
+        Optional<Users> users =repository.findByRoles(roles);
+        return users.orElse(null);
+    }
+
+    @Override
+    public Optional<Users> findByEmail(String email) {
+        Optional<Users> user =repository.findByEmail(email);
+        if (user!= null) {
+            return user;
         }
         else {
             return null;
         }
     }
-
     @Override
-    public UsersDto findByRole(String roles) {
-        Optional<Users> users =repository.findByRoles(roles);
-        if (users.isPresent()) {
-            Users user=users.get();
-            return UsersDto.fromEntity(user);
+    public Users getUserByNameAndPassword(String name, String password) throws AdminNotFoundException{
+        Users user = repository.findByUsernameAndPassword(name, password);
+        if(user == null){
+            throw new AdminNotFoundException("Invalid id and password");
         }
-        else {
-            return null;
-        }
+        return user;
     }
 
 }

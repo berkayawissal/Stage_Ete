@@ -1,6 +1,5 @@
 package com.example.demo.service.implementation;
 
-import com.example.demo.dto.AdminDto;
 import com.example.demo.model.Admin;
 import com.example.demo.repository.AdminRepository;
 import com.example.demo.service.AdminService;
@@ -19,28 +18,20 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<AdminDto> findAllAdmins() {
+    public List<Admin> findAllAdmins() {
 
-       return repository.findAll().stream().map(AdminDto::fromEntity).collect(Collectors.toList());
+       return repository.findAll();
     }
 
     @Override
-    public AdminDto saveAdmin(AdminDto dto) {
-        Admin admin= AdminDto.toEntity(dto);
-        Admin adminSaved = repository.save(admin);
-        return AdminDto.fromEntity(adminSaved);
+    public Admin saveAdmin(Admin dto) {
+        return repository.save(dto);
     }
 
     @Override
-    public AdminDto findById(Integer idAdmin) {
+    public Admin findById(Integer idAdmin) {
         Optional<Admin> optionalAdmin =repository.findById(idAdmin);
-        if (optionalAdmin.isPresent()) {
-            Admin admin=optionalAdmin.get();
-            return AdminDto.fromEntity(admin);
-        }
-        else {
-            return null;
-        }
+        return optionalAdmin.orElse(null);
     }
 
 

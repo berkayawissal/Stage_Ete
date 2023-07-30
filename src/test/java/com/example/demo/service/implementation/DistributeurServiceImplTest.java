@@ -36,9 +36,11 @@ class DistributeurServiceImplTest {
     @Test
     void findAllDistributeurs() {
         //role, nom, prenom, email, address, localisation, numTel, login, password, admin
-        List<Distributeur> admins = List.of(new Distributeur(1, DISTRIBUTEUR, "nomD","prenomD","email@distributeur","address","localisation","numTel", "password"), new Distributeur(2, DISTRIBUTEUR,"prenomD2","email@distributeur2","address2","localisation2","numTel2", "1212", "pass"));
+        List<Distributeur> admins = List.of(new Distributeur(), new Distributeur());
         when(repository.findAll()).thenReturn(admins);
         assertEquals(2,  underTest.findAllDistributeurs().size());
     }
 }/*(Integer id, ERoles roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
         super(id, roles, nom, prenom, email, address, localisation, numTel, password);*/
+//1, DISTRIBUTEUR, "nomD","prenomD","email@distributeur","address","localisation","numTel", "password"
+//2, DISTRIBUTEUR,"prenomD2","email@distributeur2","address2","localisation2","numTel2", "1212", "pass"

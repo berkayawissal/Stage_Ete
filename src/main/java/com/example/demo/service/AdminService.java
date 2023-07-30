@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.AdminDto;
 import com.example.demo.model.Admin;
 import org.springframework.stereotype.Service;
 
@@ -8,11 +7,11 @@ import java.util.List;
 @Service
 public interface AdminService {
 
-    List<AdminDto> findAllAdmins();
+    List<Admin> findAllAdmins();
 
-    AdminDto saveAdmin(AdminDto dto);
+    Admin saveAdmin(Admin dto);
 
-    AdminDto findById(Integer idAdmin);
+    Admin findById(Integer idAdmin);
 
     //Object updateAdminbyId(Integer id, Admin admin);
 

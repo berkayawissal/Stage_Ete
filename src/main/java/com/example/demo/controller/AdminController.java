@@ -1,13 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AdminDto;
 import com.example.demo.model.Admin;
 import com.example.demo.service.AdminService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -19,12 +16,12 @@ public class AdminController {
     private final AdminService service;
 
     @PostMapping("/save")
-    public AdminDto saveAdmin(@RequestBody AdminDto admin) {
+    public Admin saveAdmin(@RequestBody Admin admin) {
         System.out.println("saved");
         return service.saveAdmin(admin);
     }
     @GetMapping("/AllAdmins")
-    public List <AdminDto> findAllAdmins (){
+    public List <Admin> findAllAdmins (){
         return service.findAllAdmins();
     }
 

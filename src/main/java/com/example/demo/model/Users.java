@@ -9,17 +9,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @Builder
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,11 +28,15 @@ public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
-    @Column(name = "role")
-    private ERoles roles ;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @Column(name = "nom")
-    private String nom;
+    private String username;
     @Column(name = "prenom")
     private String prenom;
     @Column(name = "email")
@@ -48,9 +50,9 @@ public class Users implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    public Users(ERoles roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
-        this.roles = roles;
-        this.nom = nom;
+    public Users( String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
+
+        this.username = nom;
         this.prenom = prenom;
         this.email = email;
         this.address = address;
@@ -62,7 +64,7 @@ public class Users implements UserDetails {
 
 
     public Users(String nom,String email, String password) {
-        this.nom = nom;
+        this.username = nom;
         this.email=email;
         this.password = password;
     }
@@ -71,7 +73,7 @@ public class Users implements UserDetails {
     public String toString() {
         return "Users{" +
                 "id=" + id + '\'' +
-                ", nom='" + nom + '\'' +
+                ", nom='" + username + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
@@ -81,27 +83,30 @@ public class Users implements UserDetails {
                 '}';
     }
 
-    public ERoles getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(ERoles roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(roles.name()));
+        return this.roles.stream()
+                .map(roles -> new SimpleGrantedAuthority(roles.getName()))
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override

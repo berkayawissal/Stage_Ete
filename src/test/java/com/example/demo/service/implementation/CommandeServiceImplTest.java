@@ -1,7 +1,5 @@
 package com.example.demo.service.implementation;
 
-import com.example.demo.dto.CommandeDto;
-import com.example.demo.model.Admin;
 import com.example.demo.model.Commande;
 import com.example.demo.model.EtatCommande;
 import com.example.demo.repository.CommandeRepository;
@@ -13,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import java.text.DateFormat;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -46,7 +44,7 @@ public class CommandeServiceImplTest {
     void saveCommande() {
 
             Commande commande = new Commande( 12220, EtatCommande.LIVREE, "commande livree");
-            underTest.saveCommande(CommandeDto.fromEntity(commande));
+            underTest.saveCommande(commande);
             ArgumentCaptor<Commande> commandeArgumentCaptor = ArgumentCaptor.forClass(Commande.class);
             verify(repository).save(commandeArgumentCaptor.capture());
             Commande capturedCommande = commandeArgumentCaptor.getValue();

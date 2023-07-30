@@ -1,6 +1,5 @@
 package com.example.demo.service.implementation;
 
-import com.example.demo.dto.CommandeDto;
 import com.example.demo.model.Commande;
 import com.example.demo.model.EtatCommande;
 import com.example.demo.repository.CommandeRepository;
@@ -24,36 +23,27 @@ public class CommandeServiceImpl implements CommandeService {
     }
 
     @Override
-    public List<CommandeDto> findAllCommandes() {
-        return repository.findAll().stream().map(CommandeDto::fromEntity).collect(Collectors.toList());
+    public List<Commande> findAllCommandes() {
+        return repository.findAll();
     }
 
     @Override
-    public CommandeDto saveCommande(CommandeDto dto) {
-        Commande commande = CommandeDto.toEntity(dto);
-        Commande commandeSaved= repository.save(commande);
-        return CommandeDto.fromEntity(commandeSaved);
+    public Commande saveCommande(Commande commande) {
+        return repository.save(commande);
     }
 
     @Override
-    public Optional<CommandeDto> findCommandeById(Integer idCommande) {
+    public Optional<Commande> findCommandeById(Integer idCommande) {
         Optional<Commande> commandes = repository.findById(idCommande);
-        if (commandes.isPresent()) {
-            Commande commande = commandes.get();
-            return Optional.ofNullable(CommandeDto.fromEntity(commande));
-        }
-        else {
-            return null;
-        }
+        return commandes.map(Optional::of).orElse(null);
     }
     @Override
-    public Optional<CommandeDto> findCommandeByEtat(EtatCommande etat) {
+    public Optional<Commande> findCommandeByEtat(EtatCommande etat) {
         Optional<Commande> commnades = repository.findByEtat(EtatCommande.LIVREE);
         if (commnades.isPresent()){
-            Commande commande= commnades.get();
-            return Optional.ofNullable(Optional.ofNullable(CommandeDto.fromEntity(commande)).orElseThrow(() -> new RuntimeException("no delivered command found")));
+            return Optional.ofNullable(commnades.orElseThrow(() -> new RuntimeException("no delivered command found")));
     } else {
-            return null;
+            return Optional.empty();
         }
     }
 

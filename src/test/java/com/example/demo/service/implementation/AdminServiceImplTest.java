@@ -1,6 +1,5 @@
 package com.example.demo.service.implementation;
 
-import com.example.demo.dto.AdminDto;
 import com.example.demo.model.Admin;
 import com.example.demo.repository.AdminRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,12 +11,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,8 +40,8 @@ class AdminServiceImplTest {
 //user service = underTest
     @Test
     void saveAdmin() {
-        Admin admin = AdminDto.toEntity(AdminDto.fromEntity(new Admin()));
-        underTest.saveAdmin(AdminDto.fromEntity(admin));
+        Admin admin = new Admin();
+        underTest.saveAdmin(admin);
         ArgumentCaptor<Admin> adminArgumentCaptor = ArgumentCaptor.forClass(Admin.class);
         verify(repository).save(adminArgumentCaptor.capture());
         Admin capturedAdmin = adminArgumentCaptor.getValue();

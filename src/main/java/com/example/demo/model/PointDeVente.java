@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @Entity
@@ -33,7 +34,7 @@ public class PointDeVente extends Users {
     }
 
 
-    public PointDeVente(Integer id, ERoles roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
+    public PointDeVente(Integer id, Set<Role> roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
         super(id, roles, nom, prenom, email, address, localisation, numTel, password);
     }
 

@@ -1,19 +1,22 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.UsersDto;
+import com.example.demo.exception.AdminNotFoundException;
 import com.example.demo.model.Users;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface UsersService {
-    List<UsersDto> findAllUsers();
+    List<Users> findAllUsers();
 
-    UsersDto saveUser(UsersDto usersDto);
+    Users saveUser(Users usersDto);
 
-    UsersDto findByLogin(String email);
-    UsersDto findById(Integer id);
-    UsersDto findByRole(String role);
+    Optional<Users> findByLogin(String email);
+    Users findById(Integer id);
+    Users findByRole(String role);
 
+    Optional<Users> findByEmail(String email);
+    Users getUserByNameAndPassword(String name, String password) throws AdminNotFoundException;
 }

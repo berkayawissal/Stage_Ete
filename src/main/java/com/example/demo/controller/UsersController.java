@@ -1,48 +1,61 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.dto.AdminDto;
-import com.example.demo.dto.UsersDto;
-import com.example.demo.model.Admin;
+import com.example.demo.dao.AuthenticationRequest;
+import com.example.demo.dao.AuthenticationResponse;
+import com.example.demo.dao.RegistrationRequest;
+import com.example.demo.exception.AdminNotFoundException;
 import com.example.demo.model.Users;
-import com.example.demo.service.AdminService;
+import com.example.demo.service.AuthenticationService;
 import com.example.demo.service.UsersService;
 
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/userses")
+@RequestMapping("/api/auth/user")
+@RequiredArgsConstructor
 public class UsersController {
     private final UsersService service;
-    private final AdminService adminService;
+    private final AuthenticationService serviceAuth;
 
-    public UsersController(UsersService service, AdminService adminService) {
-        this.service = service;
-        this.adminService = adminService;
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody RegistrationRequest request
+    ) {
+        return ResponseEntity.ok(serviceAuth.register(request));
     }
-    @PostMapping("/save")
-    @RolesAllowed("ADMIN")
-    public UsersDto saveUser(@RequestBody UsersDto usersDto) {
 
-        return service.saveUser(usersDto);
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(serviceAuth.authenticate(request));
     }
+
+    /* @PostMapping("/save")
+    public Users saveUser(@RequestBody Users users) {
+
+        return service.saveUser(users);
+    }*/
     @GetMapping("/allUsers")
-    public List<UsersDto> findAllUsers(){
+    public List<Users> findAllUsers(){
         return service.findAllUsers();
     }
     @GetMapping("/findByLogin/{email}")
-    public UsersDto findByLogin(@PathVariable String email) {
-        return service.findByLogin(email);
+    public Optional<Users> findByLogin(@PathVariable String email) {
+        return service.findByEmail(email);
     }
     @GetMapping("/findById/{id}")
-    public UsersDto findById(@PathVariable Integer id) {
+    public Users findById(@PathVariable Integer id) {
         return service.findById(id);
     }
     @GetMapping("/findByRole/{role}")
-    public UsersDto findByRole(@PathVariable String role) {
+    public Users findByRole(@PathVariable String role) {
         return service.findByRole(role);
     }
 }

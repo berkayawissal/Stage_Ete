@@ -1,14 +1,13 @@
 package com.example.demo.model;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -27,7 +26,7 @@ public class Distributeur extends Users{
     }
 
 
-    public Distributeur(Integer id, ERoles roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
+    public Distributeur(Integer id, Set<Role> roles, String nom, String prenom, String email, String address, String localisation, String numTel, String password) {
         super(id, roles, nom, prenom, email, address, localisation, numTel, password);
 
     }
