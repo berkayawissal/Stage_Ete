@@ -34,7 +34,7 @@ public class UsersController {
     ) {
         return ResponseEntity.ok(serviceAuth.authenticate(request));
     }
-
+///api/auth/user/allUsers
     /* @PostMapping("/save")
     public Users saveUser(@RequestBody Users users) {
 

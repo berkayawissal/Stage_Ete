@@ -28,13 +28,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Optional<Users> findByLogin(String email) {
-        Optional<Users> user =repository.findByEmail(email);
-        if (user!= null) {
-            return user;
-        }
-        else {
-            return null;
-        }
+        return repository.findByEmail(email);
     }
 
     @Override
@@ -51,13 +45,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Optional<Users> findByEmail(String email) {
-        Optional<Users> user =repository.findByEmail(email);
-        if (user!= null) {
-            return user;
-        }
-        else {
-            return null;
-        }
+        return repository.findByEmail(email);
     }
     @Override
     public Users getUserByNameAndPassword(String name, String password) throws AdminNotFoundException{

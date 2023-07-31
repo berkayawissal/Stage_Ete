@@ -23,14 +23,9 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                .disable();
-
+        http.csrf().disable();
         http.authorizeRequests().antMatchers("/**/auth/**",
                         "/**/role/**",
-
-                        // swagger
                         "/v3/api-docs",
                         "/v3/api-docs/**",
                         "/swagger-resources",
@@ -54,6 +49,7 @@ public class SecurityConfiguration {
                 .logoutUrl("/api/v1/auth/logout")
                 .addLogoutHandler(logoutHandler)
                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+
         ;
 
         return http.build();

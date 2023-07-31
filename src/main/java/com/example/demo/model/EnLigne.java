@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 public class EnLigne extends PointDeVente{
-
+    private String siteWeb;
    public EnLigne (){
 
    }
@@ -18,7 +18,7 @@ public class EnLigne extends PointDeVente{
                 '}';
     }
 
-    private String siteWeb;
+
 
     public EnLigne(String siteWeb) {
         this.siteWeb = siteWeb;

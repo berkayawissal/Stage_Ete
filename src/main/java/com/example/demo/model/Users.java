@@ -61,8 +61,6 @@ public class Users implements UserDetails {
         this.password = password;
     }
 
-
-
     public Users(String nom,String email, String password) {
         this.username = nom;
         this.email=email;

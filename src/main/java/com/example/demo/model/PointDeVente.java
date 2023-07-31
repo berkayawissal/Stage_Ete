@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
@@ -12,9 +15,11 @@ public class PointDeVente extends Users {
     public PointDeVente() {
     }
     @OneToMany(mappedBy = "pointDeVente", cascade=CascadeType.PERSIST)
+    @JsonManagedReference
     private List<EndUsers> endUsers;
 
     @OneToMany(mappedBy = "pointDeVente",cascade=CascadeType.PERSIST)
+    @JsonManagedReference
     private List<Produit> produits;
 
     public List<EndUsers> getEndUsers() {
